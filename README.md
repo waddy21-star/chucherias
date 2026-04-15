@@ -1,2 +1,2 @@
-# chucherias
-Uñas nana
+# Chucherias
+Nails
