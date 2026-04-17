@@ -227,41 +227,49 @@
   function addToCartMain(){
     var name=document.getElementById('productName').textContent;
     var price=parseInt(document.getElementById('productPrice').dataset.price,10);
-    var img=document.getElementById('productMainImg')?document.getElementById('productMainImg').src:'';
+    var imgEl=document.getElementById('productMainImg');
+    var img=imgEl?imgEl.src:'';
     var variant=getSelectedVariant();
     var key=name+(variant?' - '+variant:'');
     var ex=cart.find(function(i){return i.key===key;});
     if(ex){ex.qty+=qty;}else{cart.push({key:key,name:name,variant:variant,price:price,img:img,qty:qty});}
-    saveCart(cart);renderCart();showToast('"'+name+'" agregado al carrito');toggleCart();
+    saveCart(cart);renderCart();showToast('"'+name+'" agregado');toggleCart();
   }
-  function toggleCart(){document.getElementById('cartOverlay').classList.toggle('open');document.getElementById('cartDrawer').classList.toggle('open');}
+  function toggleCart(){
+    document.getElementById('cartOverlay').classList.toggle('open');
+    document.getElementById('cartDrawer').classList.toggle('open');
+  }
   function removeFromCart(idx){cart.splice(idx,1);saveCart(cart);renderCart();}
   function changeCQty(idx,d){cart[idx].qty+=d;if(cart[idx].qty<=0)cart.splice(idx,1);saveCart(cart);renderCart();}
   function clearCart(){if(!cart.length)return;cart=[];saveCart(cart);renderCart();showToast('Carrito vaciado');}
   function renderCart(){
     var body=document.getElementById('cartBody');
-    var totalEl=document.getElementById('cartTotal');
-    var countEl=document.getElementById('cartCount');
     var total=cart.reduce(function(s,i){return s+i.price*i.qty;},0);
     var count=cart.reduce(function(s,i){return s+i.qty;},0);
-    countEl.textContent=count;
-    totalEl.textContent='₡'+total.toLocaleString('es-CR');
-    if(!cart.length){body.innerHTML='<div class="cart-empty"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Tu carrito está vacío</p></div>';return;}
+    document.getElementById('cartCount').textContent=count;
+    document.getElementById('cartTotal').textContent='\u20a1'+total.toLocaleString('es-CR');
+    if(!cart.length){
+      body.innerHTML='<div class="cart-empty"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Tu carrito est\u00e1 vac\u00edo</p></div>';
+      return;
+    }
     var h='';
     for(var idx=0;idx<cart.length;idx++){
       var item=cart[idx];
+      var imgHtml=item.img
+        ?'<img src="'+item.img+'" alt="'+item.name+'" style="width:100%;height:100%;object-fit:contain;padding:4px;" />'
+        :'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E91E8C" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
       h+='<div class="cart-item">';
-      h+='<div class="cart-item-img"><img src="'+item.img+'" alt="'+item.name+'" /></div>';
+      h+='<div class="cart-item-img">'+imgHtml+'</div>';
       h+='<div class="cart-item-info">';
       h+='<div class="cart-item-name">'+item.name+'</div>';
       if(item.variant)h+='<div class="cart-item-variant">'+item.variant+'</div>';
-      h+='<div class="cart-item-price">₡'+item.price.toLocaleString('es-CR')+'</div>';
+      h+='<div class="cart-item-price">\u20a1'+item.price.toLocaleString('es-CR')+'</div>';
       h+='<div class="cart-item-qty">';
-      h+='<button class="cqty-btn" onclick="changeCQty('+idx+',-1)">−</button>';
+      h+='<button class="cqty-btn" onclick="changeCQty('+idx+',-1)">\u2212</button>';
       h+='<span class="cqty-num">'+item.qty+'</span>';
       h+='<button class="cqty-btn" onclick="changeCQty('+idx+',1)">+</button>';
       h+='</div></div>';
-      h+='<button class="btn-remove" onclick="removeFromCart('+idx+')">×</button>';
+      h+='<button class="btn-remove" onclick="removeFromCart('+idx+')">\u00d7</button>';
       h+='</div>';
     }
     body.innerHTML=h;
@@ -270,35 +278,31 @@
     if(!cart.length){showToast('Agrega productos primero');return;}
     var msg='';var total=0;
     for(var i=0;i<cart.length;i++){
-      var item=cart[i];
-      var line='• '+item.name;
-      if(item.variant)line+=' ('+item.variant+')';
-      line+=' x'+item.qty+' — ₡'+(item.price*item.qty).toLocaleString('es-CR');
-      msg+=line+'
-';total+=item.price*item.qty;
+      var it=cart[i];
+      var line='\u2022 '+it.name;
+      if(it.variant)line+=' ('+it.variant+')';
+      line+=' x'+it.qty+' \u2014 \u20a1'+(it.price*it.qty).toLocaleString('es-CR');
+      msg+=line+'\n';
+      total+=it.price*it.qty;
     }
-    var text='Hola! Quiero realizar un pedido:
-
-'+msg+'
-Total: ₡'+total.toLocaleString('es-CR');
+    var text='Hola! Quiero realizar un pedido:\n\n'+msg+'\nTotal: \u20a1'+total.toLocaleString('es-CR');
     window.open('https://wa.me/50685850822?text='+encodeURIComponent(text),'_blank');
   }
   function orderDirectWA(){
     var name=document.getElementById('productName').textContent;
     var price=parseInt(document.getElementById('productPrice').dataset.price,10);
     var variant=getSelectedVariant();
-    var text='Hola! Me interesa el producto:
-
-• '+name;
+    var text='Hola! Me interesa el producto:\n\n\u2022 '+name;
     if(variant)text+=' ('+variant+')';
-    text+='
-
-Precio: ₡'+price.toLocaleString('es-CR')+'
-
-¿Está disponible?';
+    text+='\n\nPrecio: \u20a1'+price.toLocaleString('es-CR')+'\n\n\xbfEst\u00e1 disponible?';
     window.open('https://wa.me/50685850822?text='+encodeURIComponent(text),'_blank');
   }
-  function showToast(msg){var t=document.getElementById('toast');document.getElementById('toastText').textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
+  function showToast(msg){
+    var t=document.getElementById('toast');
+    document.getElementById('toastText').textContent=msg;
+    t.classList.add('show');
+    setTimeout(function(){t.classList.remove('show');},2800);
+  }
   document.getElementById('cartToggle').addEventListener('click',toggleCart);
   renderCart();
 </script>
