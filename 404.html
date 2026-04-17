@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P&aacute;gina no encontrada &mdash; Chucherias Nails</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --fuscia:#E91E8C;--fuscia-dark:#b5166e;--fuscia-glow:rgba(233,30,140,0.15);
+      --bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;
+      --border:rgba(255,255,255,0.07);--border-fuscia:rgba(233,30,140,0.3);
+      --text:#f5f5f5;--text-muted:#888;--text-dim:#555;--white:#fff;
+      --radius:14px;--radius-pill:50px;--transition:0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;min-height:100vh;display:flex;flex-direction:column;}
+    ::-webkit-scrollbar{width:4px;}
+    ::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:var(--fuscia);border-radius:2px;}
+
+    /* NAV */
+    nav{display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(10,10,10,0.95);border-bottom:1px solid var(--border);}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .nav-logo-text{font-family:'Playfair Display',serif;font-size:19px;color:var(--white);}
+    .nav-logo-text span{color:var(--fuscia);}
+
+    /* MAIN */
+    .error-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:60px 24px;position:relative;overflow:hidden;}
+
+    /* Background grid */
+    .error-wrap::before{
+      content:'';position:absolute;inset:0;
+      background-image:linear-gradient(rgba(233,30,140,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(233,30,140,0.04) 1px,transparent 1px);
+      background-size:60px 60px;pointer-events:none;
+    }
+    /* Glow */
+    .error-wrap::after{
+      content:'';position:absolute;width:500px;height:500px;
+      background:radial-gradient(circle,rgba(233,30,140,0.1) 0%,transparent 70%);
+      top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
+    }
+
+    .error-inner{position:relative;z-index:1;text-align:center;max-width:560px;}
+
+    .error-code{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(100px,20vw,180px);
+      font-weight:700;
+      line-height:1;
+      color:transparent;
+      -webkit-text-stroke:2px var(--fuscia);
+      margin-bottom:8px;
+      animation:pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse{0%,100%{opacity:1;}-webkit-text-stroke:2px var(--fuscia);}
+
+    .error-nail{
+      font-size:48px;
+      margin-bottom:24px;
+      display:block;
+      animation:bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+
+    .error-title{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(22px,4vw,34px);
+      font-weight:700;
+      color:var(--white);
+      margin-bottom:14px;
+    }
+    .error-title em{font-style:italic;color:var(--fuscia);}
+
+    .error-desc{
+      font-size:15px;color:var(--text-muted);
+      line-height:1.75;margin-bottom:36px;max-width:420px;margin-left:auto;margin-right:auto;
+    }
+
+    .error-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+    .btn-primary{
+      background:var(--fuscia);color:#fff;
+      padding:13px 28px;border-radius:var(--radius-pill);
+      font-size:14px;font-weight:500;text-decoration:none;
+      border:none;cursor:pointer;transition:all var(--transition);
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .btn-primary:hover{background:var(--fuscia-dark);transform:translateY(-2px);box-shadow:0 10px 28px rgba(233,30,140,0.3);}
+
+    .btn-secondary{
+      background:transparent;color:var(--text);
+      padding:12px 24px;border-radius:var(--radius-pill);
+      font-size:14px;text-decoration:none;
+      border:1px solid var(--border);cursor:pointer;transition:all var(--transition);
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .btn-secondary:hover{border-color:var(--fuscia);color:var(--fuscia);}
+
+    /* SUGGESTIONS */
+    .suggestions{margin-top:56px;}
+    .suggestions-title{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:20px;}
+    .suggestions-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+    .suggestion-pill{
+      padding:8px 18px;border-radius:var(--radius-pill);
+      border:1px solid var(--border);background:var(--bg2);
+      color:var(--text-muted);text-decoration:none;font-size:13px;
+      transition:all var(--transition);
+    }
+    .suggestion-pill:hover{border-color:var(--border-fuscia);color:var(--fuscia);background:var(--fuscia-glow);}
+
+    /* FOOTER */
+    .footer-mini{border-top:1px solid var(--border);padding:20px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+    .footer-mini span{font-size:11px;color:var(--text-dim);}
+    .footer-mini-links{display:flex;gap:16px;}
+    .footer-mini-links a{font-size:11px;color:var(--text-dim);text-decoration:none;transition:color var(--transition);}
+    .footer-mini-links a:hover{color:var(--fuscia);}
+
+    @media(max-width:480px){
+      nav{padding:14px 20px;}
+      .error-code{font-size:120px;}
+      .error-actions{flex-direction:column;align-items:center;}
+      .footer-mini{padding:18px 20px;}
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-text">Chucherias <span>Nails</span></span>
+    </a>
+    <a href="catalogo.html" style="font-size:13px;color:var(--text-muted);text-decoration:none;transition:color 0.25s;" onmouseover="this.style.color='#E91E8C'" onmouseout="this.style.color='#888'">Ver cat&aacute;logo &rarr;</a>
+  </nav>
+
+  <div class="error-wrap">
+    <div class="error-inner">
+
+      <span class="error-nail">&#x1F485;</span>
+      <div class="error-code">404</div>
+
+      <h1 class="error-title">Esta p&aacute;gina no<br><em>existe</em></h1>
+      <p class="error-desc">
+        Parece que la p&aacute;gina que busc&aacute;s se perdi&oacute; en alg&uacute;n cajoncito.
+        No te preocup&eacute;s, te llevamos de vuelta a donde est&aacute; todo lo bonito.
+      </p>
+
+      <div class="error-actions">
+        <a href="index.html" class="btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Ir al inicio
+        </a>
+        <a href="catalogo.html" class="btn-secondary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="6" height="6"/><rect x="16" y="3" width="6" height="6"/><rect x="9" y="3" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="16" y="10" width="6" height="6"/><rect x="9" y="10" width="6" height="6"/><rect x="2" y="17" width="6" height="6"/><rect x="16" y="17" width="6" height="6"/><rect x="9" y="17" width="6" height="6"/></svg>
+          Ver cat&aacute;logo
+        </a>
+      </div>
+
+      <div class="suggestions">
+        <div class="suggestions-title">O visit&aacute; directamente</div>
+        <div class="suggestions-links">
+          <a href="catalogo.html?cat=manicura" class="suggestion-pill">Manicura</a>
+          <a href="catalogo.html?cat=pedicura" class="suggestion-pill">Pedicura</a>
+          <a href="catalogo.html?cat=herramientas" class="suggestion-pill">Herramientas</a>
+          <a href="envios.html" class="suggestion-pill">Env&iacute;os</a>
+          <a href="https://wa.me/50685850822" target="_blank" class="suggestion-pill">WhatsApp</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer-mini">
+    <span>&copy; 2025 Chucherias Nails &middot; Costa Rica</span>
+    <div class="footer-mini-links">
+      <a href="index.html">Inicio</a>
+      <a href="envios.html">Env&iacute;os</a>
+      <a href="devoluciones.html">Devoluciones</a>
+      <a href="https://wa.me/50685850822" target="_blank">WhatsApp</a>
+    </div>
+  </footer>
+
+</body>
+</html>
