@@ -153,7 +153,7 @@
       <div class="fade-up-2">
         
         <div class="product-cat">Manicura &middot; Pedicura &middot; Accesorios</div>
-        <h1 class="product-title" id="productName">Filtro para Extractor de Polvo</h1>
+        <h1 class="product-title" id="productName" data-key="Filtro para Extractor">Filtro para Extractor de Polvo</h1>
         <div class="product-price" id="productPrice" data-price="3500">&#x20a1;3,500</div>
         <p class="product-desc">Filtros de repuesto para extractores de polvo de u&ntilde;as. Capturan el polvo que se genera al limar, manteniendo el ambiente limpio y protegiendo la salud. F&aacute;ciles de reemplazar.</p>
         <div class="specs"><div class="spec-row"><span class="spec-label">Cantidad</span><span class="spec-val">50 unidades por paquete</span></div><div class="spec-row"><span class="spec-label">Compatibilidad</span><span class="spec-val">Extractores de polvo est&aacute;ndar</span></div><div class="spec-row"><span class="spec-label">Funci&oacute;n</span><span class="spec-val">Filtrar polvo al limar</span></div></div>
@@ -225,14 +225,16 @@
   function getSelectedVariant(){var a=document.querySelector('.variant-btn.active');return a?a.textContent.trim():null;}
   function selectVariant(btn){document.querySelectorAll('.variant-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');}
   function addToCartMain(){
-    var name=document.getElementById('productName').textContent;
+    var el=document.getElementById('productName');
+    var name=el.dataset.key||el.textContent.trim();
     var price=parseInt(document.getElementById('productPrice').dataset.price,10);
     var imgEl=document.getElementById('productMainImg');
     var img=imgEl?imgEl.src:'';
     var variant=getSelectedVariant();
     var key=name+(variant?' - '+variant:'');
     var ex=cart.find(function(i){return i.key===key;});
-    if(ex){ex.qty+=qty;}else{cart.push({key:key,name:name,variant:variant,price:price,img:img,qty:qty});}
+    if(ex){ex.qty+=qty;ex.img=ex.img||img;}
+    else{cart.push({key:key,name:name,variant:variant,price:price,img:img,qty:qty});}
     saveCart(cart);renderCart();showToast('"'+name+'" agregado');toggleCart();
   }
   function toggleCart(){
@@ -289,7 +291,8 @@
     window.open('https://wa.me/50685850822?text='+encodeURIComponent(text),'_blank');
   }
   function orderDirectWA(){
-    var name=document.getElementById('productName').textContent;
+    var el=document.getElementById('productName');
+    var name=el.dataset.key||el.textContent.trim();
     var price=parseInt(document.getElementById('productPrice').dataset.price,10);
     var variant=getSelectedVariant();
     var text='Hola! Me interesa el producto:\n\n\u2022 '+name;

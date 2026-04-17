@@ -153,7 +153,7 @@
       <div class="fade-up-2">
         
         <div class="product-cat">Manicura &middot; Pedicura &middot; Descartables</div>
-        <h1 class="product-title" id="productName">Pa&ntilde;itos Desechables</h1>
+        <h1 class="product-title" id="productName" data-key="Panitos Desechables">Pa&ntilde;itos Desechables</h1>
         <div class="product-price" id="productPrice" data-price="3500">&#x20a1;3,500</div>
         <p class="product-desc">Pa&ntilde;itos desechables para limpieza e higiene durante el servicio de manicura y pedicura. Suaves, absorbentes y resistentes. Ideales para remover restos de producto, polvo o esmalte sin contaminar.</p>
         <div class="specs"><div class="spec-row"><span class="spec-label">Cantidad</span><span class="spec-val">20 unidades por paquete</span></div><div class="spec-row"><span class="spec-label">Uso</span><span class="spec-val">Limpieza y higiene</span></div><div class="spec-row"><span class="spec-label">Material</span><span class="spec-val">Algod&oacute;n no tejido</span></div></div>
@@ -225,14 +225,16 @@
   function getSelectedVariant(){var a=document.querySelector('.variant-btn.active');return a?a.textContent.trim():null;}
   function selectVariant(btn){document.querySelectorAll('.variant-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');}
   function addToCartMain(){
-    var name=document.getElementById('productName').textContent;
+    var el=document.getElementById('productName');
+    var name=el.dataset.key||el.textContent.trim();
     var price=parseInt(document.getElementById('productPrice').dataset.price,10);
     var imgEl=document.getElementById('productMainImg');
     var img=imgEl?imgEl.src:'';
     var variant=getSelectedVariant();
     var key=name+(variant?' - '+variant:'');
     var ex=cart.find(function(i){return i.key===key;});
-    if(ex){ex.qty+=qty;}else{cart.push({key:key,name:name,variant:variant,price:price,img:img,qty:qty});}
+    if(ex){ex.qty+=qty;ex.img=ex.img||img;}
+    else{cart.push({key:key,name:name,variant:variant,price:price,img:img,qty:qty});}
     saveCart(cart);renderCart();showToast('"'+name+'" agregado');toggleCart();
   }
   function toggleCart(){
@@ -289,7 +291,8 @@
     window.open('https://wa.me/50685850822?text='+encodeURIComponent(text),'_blank');
   }
   function orderDirectWA(){
-    var name=document.getElementById('productName').textContent;
+    var el=document.getElementById('productName');
+    var name=el.dataset.key||el.textContent.trim();
     var price=parseInt(document.getElementById('productPrice').dataset.price,10);
     var variant=getSelectedVariant();
     var text='Hola! Me interesa el producto:\n\n\u2022 '+name;
