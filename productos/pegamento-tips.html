@@ -153,8 +153,8 @@
       <div class="fade-up-2">
         <div class="offer-badge">&#x1F525; OFERTA</div>
         <div class="product-cat">Manicura &middot; Tips &middot; Accesorios</div>
-        <h1 class="product-title" id="productName">Pegamento para Tips</h1>
-        <div class="product-price" id="productPrice" data-price="3500">&#x20a1;5 x &#x20a1;3,500</div>
+        <h1 class="product-title" id="productName" data-key="Pegamento para Tips">Pegamento para Tips</h1>
+        <div class="product-price" id="productPrice" data-price="3500">5 unds x &#x20a1;3,500</div>
         <p class="product-desc">Pegamento gel Bond Nail Glue especial para adherir tips de u&ntilde;as postizas y nail art. F&oacute;rmula de larga duraci&oacute;n, secado r&aacute;pido y fuerte adherencia. Presentaci&oacute;n en pack de 5 unidades.</p>
         <div class="specs"><div class="spec-row"><span class="spec-label">Marca</span><span class="spec-val">Coscelia</span></div><div class="spec-row"><span class="spec-label">Contenido</span><span class="spec-val">10g por unidad</span></div><div class="spec-row"><span class="spec-label">Pack</span><span class="spec-val">5 unidades</span></div><div class="spec-row"><span class="spec-label">Uso</span><span class="spec-val">Tips y nail art</span></div></div>
         
@@ -225,14 +225,16 @@
   function getSelectedVariant(){var a=document.querySelector('.variant-btn.active');return a?a.textContent.trim():null;}
   function selectVariant(btn){document.querySelectorAll('.variant-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');}
   function addToCartMain(){
-    var name=document.getElementById('productName').textContent;
+    var el=document.getElementById('productName');
+    var name=el.dataset.key||el.textContent.trim();
     var price=parseInt(document.getElementById('productPrice').dataset.price,10);
     var imgEl=document.getElementById('productMainImg');
     var img=imgEl?imgEl.src:'';
     var variant=getSelectedVariant();
     var key=name+(variant?' - '+variant:'');
     var ex=cart.find(function(i){return i.key===key;});
-    if(ex){ex.qty+=qty;}else{cart.push({key:key,name:name,variant:variant,price:price,img:img,qty:qty});}
+    if(ex){ex.qty+=qty;ex.img=ex.img||img;}
+    else{cart.push({key:key,name:name,variant:variant,price:price,img:img,qty:qty});}
     saveCart(cart);renderCart();showToast('"'+name+'" agregado');toggleCart();
   }
   function toggleCart(){
@@ -289,7 +291,8 @@
     window.open('https://wa.me/50685850822?text='+encodeURIComponent(text),'_blank');
   }
   function orderDirectWA(){
-    var name=document.getElementById('productName').textContent;
+    var el=document.getElementById('productName');
+    var name=el.dataset.key||el.textContent.trim();
     var price=parseInt(document.getElementById('productPrice').dataset.price,10);
     var variant=getSelectedVariant();
     var text='Hola! Me interesa el producto:\n\n\u2022 '+name;
